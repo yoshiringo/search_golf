@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    env_file: .env
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - frontend
+    # 開発用コマンドはプロジェクト作成後に有効化してください
+    # command: sh -c "python manage.py runserver 0.0.0.0:8000 || sleep infinity"
+
+  frontend:
+    build: ./frontend
+    env_file: .env
+    volumes:
+      - ./frontend:/app
+      # keep node_modules inside the container (avoid host mount overwriting it)
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    command: sh -c "npm run dev -- --host 0.0.0.0 --port 3000 || sleep infinity"
+
+  nginx:
+    build: ./infra/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
