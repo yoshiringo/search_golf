@@ -24,8 +24,8 @@
 
 #### 受入基準
 
-1. THE Golf_Search_System SHALL エリアコード入力フィールドを提供する
-2. THE Golf_Search_System SHALL プレー日入力フィールドを提供する（YYYY-MM-DD形式）
+1. THE Golf_Search_System SHALL エリアコード入力フィールドを提供する（必須）
+2. THE Golf_Search_System SHALL プレー日入力フィールドを提供する（YYYY-MM-DD形式）（必須）
 3. THE Golf_Search_System SHALL 最小価格入力フィールドを提供する
 4. THE Golf_Search_System SHALL 最大価格入力フィールドを提供する
 5. THE Golf_Search_System SHALL 時間帯指定入力フィールドを提供する
