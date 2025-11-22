@@ -24,8 +24,8 @@
 
 #### 受入基準
 
-1. THE Golf_Search_System SHALL エリアコード入力フィールドを提供する
-2. THE Golf_Search_System SHALL プレー日入力フィールドを提供する（YYYY-MM-DD形式）
+1. THE Golf_Search_System SHALL エリアコード入力フィールドを提供する（必須）
+2. THE Golf_Search_System SHALL プレー日入力フィールドを提供する（YYYY-MM-DD形式）（必須）
 3. THE Golf_Search_System SHALL 最小価格入力フィールドを提供する
 4. THE Golf_Search_System SHALL 最大価格入力フィールドを提供する
 5. THE Golf_Search_System SHALL 時間帯指定入力フィールドを提供する
@@ -85,6 +85,12 @@
 2. THE Golf_Search_System SHALL Travel_TimeがMax_Travel_Time以下のGolf_Planのみを結果に含める
 3. THE Golf_Search_System SHALL フィルタリングされた結果をユーザーに表示する
 4. THE Golf_Search_System SHALL 各結果に移動時間情報を含める
+
+#### ユーザーの入力条件+移動時間に合致するゴルフ場の取得の流れ（APIを叩く回数を減らすための施策）
+1. 入力条件（出発地以外）から楽天goraAPIで条件合致するゴルフ場を取得
+2. 最寄IC（highwayCode）を重複なしで取得
+3. highwayCodeから分かる最寄ICと出発地の移動時間が、移動時間条件内のゴルフ場のみ抽出
+4. 上記で抽出された各ゴルフ場までの移動時間をdistance matrix APIで取得。移動時間条件内のゴルフ場のみ抽出
 
 ### 要件7
 

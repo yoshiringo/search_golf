@@ -7,6 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
+# Use API stubs in development by default. Set USE_API_STUBS=False in production to call real APIs.
+USE_API_STUBS = os.environ.get('USE_API_STUBS', 'True') == 'True'
+
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [

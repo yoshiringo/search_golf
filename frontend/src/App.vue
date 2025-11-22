@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Search Golf (dev)</h1>
     <p>This is a minimal Vite + Vue scaffold.</p>
-    <button @click="check">Check API</button>
+    <button @click="check">Check API (POST /api/golf-search/)</button>
     <pre v-if="res">{{ res }}</pre>
   </div>
 </template>
@@ -16,7 +16,17 @@ export default {
   methods: {
     async check() {
       try {
-        const r = await axios.get('/api/health/')
+        // サンプルペイロード — 必要に応じて変更してください
+        const payload = {
+          areaCode: 1,
+          playDate: '2025-11-03',
+          minPrice: null,
+          maxPrice: null,
+          startTimeZone: null,
+          originAddress: '東京都渋谷区',
+          maxTravelTime: 120
+        }
+        const r = await axios.post('/api/golf-search/', payload)
         this.res = JSON.stringify(r.data, null, 2)
       } catch (e) {
         this.res = String(e)
