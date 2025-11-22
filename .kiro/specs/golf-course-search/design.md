@@ -90,23 +90,7 @@ POST /api/golf-search/
 ```
 
 **レスポンス:**
-```json
-{
-  "results": [
-    {
-      "golfCourseName": "○○ゴルフクラブ",
-      "planName": "平日プラン",
-      "price": 8000,
-      "address": "千葉県○○市",
-      "travelTime": 90,
-      "playDate": "2024-12-01",
-      "startTime": "08:00"
-    }
-  ],
-  "totalCount": 1,
-  "searchTime": "2024-11-01T10:00:00Z"
-}
-```
+詳しくは[.memo\responce内容.txt]を参照。
 
 ## データクラス
 
@@ -134,7 +118,8 @@ class GolfCourse:
     address: str
     play_date: str
     start_time: str
-    travel_time: Optional[int] = None  # minutes
+  travel_time: Optional[int] = None  # minutes
+  highwayCode: Optional[int] = None  # 楽天Goraから得られる最寄ICコード（highwayCode）
 ```
 
 ### SearchResult
@@ -163,6 +148,7 @@ https://app.rakuten.co.jp/services/api/Gora/GoraPlanSearch/20170623
 - `maxPrice` → `maxPrice`
 - `startTimeZone` → `startTimeZone`
 - `applicationId` → 固定値（環境変数から取得）
+ - `highwayCode` → レスポンス内の `highwayCode` を取得し内部データ（`GolfCourse.highwayCode`）に格納
 
 ### Google Distance Matrix API統合
 

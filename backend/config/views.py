@@ -54,7 +54,8 @@ class GolfSearchView(APIView):
                 'address': addr,
                 'playDate': p.get('play_date'),
                 'startTime': p.get('start_time'),
-                'travelTimeMinutes': tt if tt is None or isinstance(tt, int) else int(tt)
+                'travelTimeMinutes': tt if tt is None or isinstance(tt, int) else int(tt),
+                'highwayCode': p.get('highwayCode')
             }
 
             max_travel = data.get('maxTravelTime')
