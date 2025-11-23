@@ -118,8 +118,9 @@ class GolfCourse:
     address: str
     play_date: str
     start_time: str
-  travel_time: Optional[int] = None  # minutes
-  highwayCode: Optional[int] = None  # 楽天Goraから得られる最寄ICコード（highwayCode）
+    travel_time: Optional[int] = None  # minutes
+    highwayCode: Optional[int] = None  # 楽天Goraから得られる最寄ICコード（highwayCode）
+    reservePageUrlPC（もしくはモバイルデバイスの場合はreservePageUrlMobile）: str
 ```
 
 ### SearchResult
@@ -148,7 +149,8 @@ https://app.rakuten.co.jp/services/api/Gora/GoraPlanSearch/20170623
 - `maxPrice` → `maxPrice`
 - `startTimeZone` → `startTimeZone`
 - `applicationId` → 固定値（環境変数から取得）
- - `highwayCode` → レスポンス内の `highwayCode` を取得し内部データ（`GolfCourse.highwayCode`）に格納
+- `highwayCode` → レスポンス内の `highwayCode` を取得し内部データ（`GolfCourse.highwayCode`）に格納
+- `reservePageUrlPC`（もしくはモバイルデバイスの場合は`reservePageUrlMobile`）→ レスポンス内の`reservePageUrlPC` or `reservePageUrlMobile`を取得し、検索結果表示の時に表示する
 
 ### Google Distance Matrix API統合
 

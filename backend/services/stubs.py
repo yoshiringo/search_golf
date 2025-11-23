@@ -17,6 +17,8 @@ class RakutenGoraServiceStub(RakutenGoraService):
                     'plan_name': '平日プラン',
                     'price': 8000,
                     'address': '東京都渋谷区1-1',
+                    'highwayCode': 12345,
+                    'reservePageUrlPC': 'https://example.com/reserve/1-100',
                     'play_date': play_date,
                     'start_time': '08:00'
                 },
@@ -26,6 +28,8 @@ class RakutenGoraServiceStub(RakutenGoraService):
                     'plan_name': '土日プラン',
                     'price': 12000,
                     'address': '東京都新宿区2-2',
+                    'highwayCode': 12346,
+                    'reservePageUrlPC': 'https://example.com/reserve/1-101',
                     'play_date': play_date,
                     'start_time': '09:00'
                 }
@@ -38,6 +42,8 @@ class RakutenGoraServiceStub(RakutenGoraService):
                     'plan_name': '通常プラン',
                     'price': 7000 + (area_code * 100),
                     'address': f'Prefecture area {area_code}',
+                    'highwayCode': 10000 + area_code,
+                    'reservePageUrlPC': f'https://example.com/reserve/{area_code}-200',
                     'play_date': play_date,
                     'start_time': '10:00'
                 }

@@ -54,6 +54,7 @@ class GolfSearchView(APIView):
                 'address': addr,
                 'playDate': p.get('play_date'),
                 'startTime': p.get('start_time'),
+                'reservePageUrlPC': p.get('reservePageUrlPC'),
                 'travelTimeMinutes': tt if tt is None or isinstance(tt, int) else int(tt),
                 'highwayCode': p.get('highwayCode')
             }

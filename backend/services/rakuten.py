@@ -76,15 +76,29 @@ class RakutenGoraServiceClient(RakutenGoraService):
                 # price may be nested under plan
                 price = plan.get('price')
 
+                # Extract reservation URL: prefer plan-level callInfo -> plan-level -> item-level -> mobile fallback
+                plan_call = plan.get('callInfo') or {}
+                item_call = item.get('callInfo') or {}
+                reserve_url = (
+                    plan_call.get('reservePageUrlPC')
+                    or plan.get('reservePageUrlPC')
+                    or item_call.get('reservePageUrlPC')
+                    or item.get('reservePageUrlPC')
+                    or item_call.get('reservePageUrlMobile')
+                    or item.get('reservePageUrlMobile')
+                    or None
+                )
+
                 result = {
                     'course_id': item.get('golfCourseId') or item.get('golfCourseId'),
                     'course_name': item.get('golfCourseName'),
                     'plan_name': plan.get('planName'),
                     'price': price,
                     'address': self._safe_address(item),
-                    'play_date': (plan.get('callInfo') or {}).get('playDate') or play_date,
+                    'play_date': plan_call.get('playDate') or play_date,
                     'start_time': plan.get('startTimeZone') or plan.get('startTime') or '',
-                    'highwayCode': item.get('highwayCode')
+                    'highwayCode': item.get('highwayCode'),
+                    'reservePageUrlPC': reserve_url
                 }
 
                 # Apply simple client-side filters if API didn't filter

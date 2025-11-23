@@ -59,7 +59,7 @@
 #### 受入基準
 
 1. WHEN 検索処理が開始される時、THE Golf_Search_System SHALL Rakuten_Gora_APIにリクエストを送信する
-2. THE Golf_Search_System SHALL APIリクエストにエリアコード、プレー日、価格範囲、時間帯を含める
+2. THE Golf_Search_System SHALL APIリクエストにエリアコード、プレー日、価格範囲、時間帯、予約URLを含める
 3. WHEN APIからレスポンスを受信する時、THE Golf_Search_System SHALL レスポンスデータを解析する
 	- レスポンス中の `highwayCode`（最寄ICを示すコード）を抽出して後続処理に利用できるようにする
 4. IF APIエラーが発生した場合、THEN THE Golf_Search_System SHALL エラーハンドリングを実行する
@@ -99,7 +99,7 @@
 
 #### 受入基準
 
-1. THE Golf_Search_System SHALL ゴルフ場名、プラン詳細、価格、移動時間を表示する
+1. THE Golf_Search_System SHALL ゴルフ場名、プラン詳細、価格、移動時間、予約URLを表示する
 2. THE Golf_Search_System SHALL 検索結果を一覧形式で表示する
 3. THE Golf_Search_System SHALL 移動時間順での並び替え機能を提供する
 4. WHEN 検索結果が0件の場合、THE Golf_Search_System SHALL 適切なメッセージを表示する
