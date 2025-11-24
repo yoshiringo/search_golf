@@ -1,20 +1,24 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
+// Unified Vite config: polling-based watch (for Docker on Windows) + /api proxy
 export default defineConfig({
   plugins: [vue()],
   server: {
     host: true,
     port: 3000,
+    watch: {
+      usePolling: true,
+      interval: 1000
+    },
     proxy: {
-      // Docker Compose 環境: frontend コンテナ -> backend サービス名で到達
+      // Docker Compose environment: frontend container -> backend service name
       '/api': {
         target: 'http://backend:8000',
         changeOrigin: true,
         secure: false,
       },
-      // ローカルでフロントをホスト上で動かしている場合は代わりに以下を使う:
-      // '/api': 'http://localhost:8000'
+      // If running frontend locally (not in container), consider: '/api': 'http://localhost:8000'
     }
   }
 })

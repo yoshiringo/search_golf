@@ -61,7 +61,7 @@ export default {
     return {
       // Default form values
       form: {
-        areaCode: 13,
+        areaCode: 9,
         playDate: '',
         minPrice: null,
         maxPrice: null,
@@ -162,7 +162,7 @@ export default {
     onClear() {
       if (!confirm('値をクリアしてよろしいですか？')) return
       this.form = {
-        areaCode: 13,
+        areaCode: 9,
         playDate: '',
         minPrice: null,
         maxPrice: null,

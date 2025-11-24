@@ -3,7 +3,7 @@ from datetime import date
 
 
 class SearchRequestSerializer(serializers.Serializer):
-    areaCode = serializers.IntegerField(default=1, min_value=1, error_messages={
+    areaCode = serializers.IntegerField(default=9, min_value=1, error_messages={
         'invalid': 'areaCode は整数で指定してください。',
         'min_value': 'areaCode は 1 以上の値を指定してください。'
     })
@@ -12,7 +12,7 @@ class SearchRequestSerializer(serializers.Serializer):
     })
     minPrice = serializers.IntegerField(allow_null=True, required=False, min_value=0, error_messages={'invalid': 'minPrice は整数で指定してください。'})
     maxPrice = serializers.IntegerField(allow_null=True, required=False, min_value=0, error_messages={'invalid': 'maxPrice は整数で指定してください。'})
-    startTimeZone = serializers.IntegerField(allow_null=True, required=False, min_value=0, max_value=23, error_messages={'invalid': 'startTimeZone は 0-23 の整数で指定してください。'})
+    startTimeZone = serializers.IntegerField(allow_null=True, required=False, min_value=4, max_value=15, error_messages={'invalid': 'startTimeZone は 4-15 の整数で指定してください。'})
     originAddress = serializers.CharField(allow_blank=True, required=False)
     maxTravelTime = serializers.IntegerField(allow_null=True, required=False, min_value=0, error_messages={'invalid': 'maxTravelTime は正の整数（分）で指定してください。'})
 
