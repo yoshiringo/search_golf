@@ -56,7 +56,7 @@ class GolfSearchView(APIView):
                 'startTime': p.get('start_time'),
                 'reservePageUrlPC': p.get('reservePageUrlPC'),
                 'travelTimeMinutes': tt if tt is None or isinstance(tt, int) else int(tt),
-                'highwayCode': p.get('highwayCode')
+                'ic': p.get('ic')
             }
 
             max_travel = data.get('maxTravelTime')

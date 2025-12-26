@@ -119,7 +119,7 @@ class GolfCourse:
     play_date: str
     start_time: str
     travel_time: Optional[int] = None  # minutes
-    highwayCode: Optional[int] = None  # 楽天Goraから得られる最寄ICコード（highwayCode）
+    ic: Optional[int] = None  # 楽天Goraから得られる最寄ICコード（ic）
     reservePageUrlPC（もしくはモバイルデバイスの場合はreservePageUrlMobile）: str
 ```
 
@@ -149,7 +149,7 @@ https://app.rakuten.co.jp/services/api/Gora/GoraPlanSearch/20170623
 - `maxPrice` → `maxPrice`
 - `startTimeZone` → `startTimeZone`
 - `applicationId` → 固定値（環境変数から取得）
-- `highwayCode` → レスポンス内の `highwayCode` を取得し内部データ（`GolfCourse.highwayCode`）に格納
+- `ic` → レスポンス内の `ic` を取得し内部データ（`GolfCourse.ic`）に格納
 - `reservePageUrlPC`（もしくはモバイルデバイスの場合は`reservePageUrlMobile`）→ レスポンス内の`reservePageUrlPC` or `reservePageUrlMobile`を取得し、検索結果表示の時に表示する
 
 ### Google Distance Matrix API統合
@@ -209,8 +209,8 @@ https://maps.googleapis.com/maps/api/distancematrix/json
 
 ### API通信回数節約の施策
 1. 入力条件（出発地以外）から楽天goraAPIで条件合致するゴルフ場を取得
-2. 最寄IC（highwayCode）を重複なしで取得
-3. highwayCodeから分かる最寄ICと出発地の移動時間が、移動時間条件内のゴルフ場のみ抽出
+2. 最寄IC（ic）を重複なしで取得
+3. icから分かる最寄ICと出発地の移動時間が、移動時間条件内のゴルフ場のみ抽出
 4. 上記で抽出された各ゴルフ場までの移動時間をdistance matrix APIで取得。移動時間条件内のゴルフ場のみ抽出
 
 ### 非同期処理

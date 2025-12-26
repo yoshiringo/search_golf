@@ -9,7 +9,7 @@ class RakutenGoraServiceClient(RakutenGoraService):
     """Real Rakuten Gora API client (minimal).
 
     Reads RAKUTEN_APPLICATION_ID from environment. Returns a list of plan dicts with
-    keys: course_id, course_name, plan_name, price, address, play_date, start_time, highwayCode
+    keys: course_id, course_name, plan_name, price, address, play_date, start_time, ic
     """
 
     ENDPOINT = "https://app.rakuten.co.jp/services/api/Gora/GoraPlanSearch/20170623"
@@ -97,7 +97,7 @@ class RakutenGoraServiceClient(RakutenGoraService):
                     'address': self._safe_address(item),
                     'play_date': plan_call.get('playDate') or play_date,
                     'start_time': plan.get('startTimeZone') or plan.get('startTime') or '',
-                    'highwayCode': item.get('highwayCode'),
+                    'ic': item.get('ic'),
                     'reservePageUrlPC': reserve_url
                 }
 
