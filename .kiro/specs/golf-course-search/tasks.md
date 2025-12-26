@@ -1,20 +1,20 @@
 # 実装計画
 
-- [] 1. Docker環境とプロジェクト構造の作成
+- [-] 1. Docker環境とプロジェクト構造の作成
   - Docker Compose設定ファイルの作成
   - バックエンド用Dockerfileの作成（Django環境）
   - フロントエンド用Dockerfileの作成（Node.js/Vue.js環境）
   - プロジェクトディレクトリ構造の初期化
   - _要件: 8.1, 8.2_
 
-- [ ] 2. Djangoバックエンドの初期設定
+- [-] 2. Djangoバックエンドの初期設定
   - Djangoプロジェクトとアプリケーションの初期化
   - 必要なパッケージのインストール（Django REST Framework、requests、django-cors-headers）
   - 基本的なDjango設定（CORS、静的ファイル、環境変数）
   - Docker環境での動作確認
   - _要件: 8.1, 8.2_
 
-- [ ] 3. データクラスとシリアライザーの実装
+- [-] 3. データクラスとシリアライザーの実装
   - SearchRequest、GolfCourse、SearchResultデータクラスの作成
   - Django REST Frameworkシリアライザーの実装
   - 入力バリデーション機能の追加

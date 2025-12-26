@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
-    <h1>Search Golf (dev)</h1>
-    <p>This is a minimal Vite + Vue scaffold.</p>
+  <div>
+    <div class="container">
+      <h1>Search Golf (dev)</h1>
 
-    <SearchForm @search="onSearch" />
+      <SearchForm @search="onSearch" :loading="loading" />
 
     <div class="mt-3">
       <h2 class="h6">Last Search Payload</h2>
@@ -17,6 +17,16 @@
     <div class="mt-4">
       <ResultsList :results="results" />
     </div>
+    </div>
+
+    <div v-if="loading" class="loading-overlay" role="status" aria-live="polite">
+      <div class="loading-box text-center">
+        <div class="spinner-border text-primary" role="status" style="width:3rem;height:3rem">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="mt-3">検索中です。しばらくお待ちください…</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,12 +38,13 @@ import ResultsList from './components/ResultsList.vue'
 export default {
   components: { SearchForm, ResultsList },
   data() {
-    return { res: null, lastPayload: null, results: [] }
+    return { res: null, lastPayload: null, results: [], loading: false }
   },
   methods: {
     async onSearch(payload) {
       // Send payload to backend and display response; also log golfCourseName for verification
       this.lastPayload = JSON.stringify(payload, null, 2)
+      this.loading = true
       try {
         this.res = null
         const r = await axios.post('/api/golf-search/', payload)
@@ -51,6 +62,8 @@ export default {
         } else {
           alert('検索中にエラーが発生しました。コンソールを確認してください。')
         }
+      } finally {
+        this.loading = false
       }
     },
     async check() {
@@ -81,4 +94,23 @@ export default {
 <style>
 body { font-family: system-ui, sans-serif; padding: 1rem }
 .container { max-width: 800px }
+
+.loading-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255,255,255,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.loading-box {
+  padding: 1.5rem 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
 </style>

@@ -207,6 +207,12 @@ https://maps.googleapis.com/maps/api/distancematrix/json
 - Google Maps APIレスポンスの一時キャッシュ（同一住所ペア）
 - 楽天GoraAPIレスポンスの短期キャッシュ
 
+### API通信回数節約の施策
+1. 入力条件（出発地以外）から楽天goraAPIで条件合致するゴルフ場を取得
+2. 最寄IC（highwayCode）を重複なしで取得
+3. highwayCodeから分かる最寄ICと出発地の移動時間が、移動時間条件内のゴルフ場のみ抽出
+4. 上記で抽出された各ゴルフ場までの移動時間をdistance matrix APIで取得。移動時間条件内のゴルフ場のみ抽出
+
 ### 非同期処理
 - 複数ゴルフ場への距離計算の並列実行
 - フロントエンドでの非同期API呼び出し

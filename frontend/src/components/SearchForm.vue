@@ -4,24 +4,24 @@
 
     <div class="mb-2">
       <label class="form-label">エリア（必須）</label>
-      <select class="form-select" v-model.number="form.areaCode">
+      <select class="form-select" v-model.number="form.areaCode" :disabled="loading">
         <option v-for="opt in areas" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
       </select>
     </div>
 
     <div class="mb-2">
       <label class="form-label">プレー日（必須）</label>
-      <input type="date" class="form-control" v-model="form.playDate" />
+      <input type="date" class="form-control" v-model="form.playDate" :disabled="loading" />
     </div>
 
     <div class="row mb-2">
       <div class="col">
         <label class="form-label">最小価格</label>
-        <input type="number" class="form-control" v-model.number="form.minPrice" min="0" />
+        <input type="number" class="form-control" v-model.number="form.minPrice" min="0" :disabled="loading" />
       </div>
       <div class="col">
         <label class="form-label">最大価格</label>
-        <input type="number" class="form-control" v-model.number="form.maxPrice" min="0" />
+        <input type="number" class="form-control" v-model.number="form.maxPrice" min="0" :disabled="loading" />
       </div>
     </div>
 
@@ -29,26 +29,30 @@
       <label class="form-label">時間帯（任意・複数選択可）</label>
       <div class="d-flex flex-wrap">
         <div v-for="tz in timeZones" :key="tz.value" class="form-check me-3">
-          <input class="form-check-input" type="checkbox" :id="`tz-${tz.value}`" :value="tz.value" v-model.number="form.startTimeZones" />
+          <input class="form-check-input" type="checkbox" :id="`tz-${tz.value}`" :value="tz.value" v-model.number="form.startTimeZones" :disabled="loading" />
           <label class="form-check-label" :for="`tz-${tz.value}`">{{ tz.label }}</label>
         </div>
       </div>
-      <div class="form-text">複数選択時は先頭の値をAPIパラメータ `startTimeZone` に渡します（実装で拡張予定）。</div>
+      <div class="form-text">複数選択時はカンマ区切りで `startTimeZone` に渡します（例: 5,7,9）。</div>
     </div>
 
     <div class="mb-2">
       <label class="form-label">出発地住所（任意）</label>
-      <input type="text" class="form-control" v-model="form.originAddress" placeholder="東京都渋谷区 など" />
+      <input type="text" class="form-control" v-model="form.originAddress" placeholder="東京都渋谷区 など" :disabled="loading" />
     </div>
 
     <div class="mb-3">
       <label class="form-label">移動時間上限（分・任意）</label>
-      <input type="number" class="form-control" v-model.number="form.maxTravelTime" min="0" />
+      <input type="number" class="form-control" v-model.number="form.maxTravelTime" min="0" :disabled="loading" />
     </div>
 
     <div class="d-flex gap-2">
-      <button class="btn btn-primary" @click="onSearch">検索</button>
-      <button class="btn btn-secondary" @click="onClear">クリア</button>
+      <button class="btn btn-primary" @click="onSearch" :disabled="loading">
+        <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        <span v-if="loading">検索中...</span>
+        <span v-else>検索</span>
+      </button>
+      <button class="btn btn-secondary" @click="onClear" :disabled="loading">クリア</button>
     </div>
   </div>
 </template>
@@ -57,6 +61,9 @@
 export default {
   name: 'SearchForm',
   emits: ['search'],
+  props: {
+    loading: { type: Boolean, default: false }
+  },
   data() {
     return {
       // Default form values
@@ -141,8 +148,8 @@ export default {
         playDate: this.form.playDate,
         minPrice: this.form.minPrice === '' ? null : this.form.minPrice,
         maxPrice: this.form.maxPrice === '' ? null : this.form.maxPrice,
-        // API currently expects single startTimeZone; take first selected if any
-        startTimeZone: this.form.startTimeZones.length ? this.form.startTimeZones[0] : null,
+        // 複数選択された場合はカンマ区切りで送信する（例: "5,7,9"）
+        startTimeZone: this.form.startTimeZones.length ? this.form.startTimeZones.join(',') : null,
         // Send empty string for optional text fields instead of null to satisfy serializer
         originAddress: this.form.originAddress || '',
         maxTravelTime: this.form.maxTravelTime === '' ? null : this.form.maxTravelTime
@@ -156,7 +163,7 @@ export default {
       }
 
       const payload = this.buildPayload()
-      // Emit payload to parent — actual search implementation is out of scope for now
+      // Emit payload to parent
       this.$emit('search', payload)
     },
     onClear() {

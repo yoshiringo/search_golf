@@ -12,7 +12,9 @@ class SearchRequestSerializer(serializers.Serializer):
     })
     minPrice = serializers.IntegerField(allow_null=True, required=False, min_value=0, error_messages={'invalid': 'minPrice は整数で指定してください。'})
     maxPrice = serializers.IntegerField(allow_null=True, required=False, min_value=0, error_messages={'invalid': 'maxPrice は整数で指定してください。'})
-    startTimeZone = serializers.IntegerField(allow_null=True, required=False, min_value=4, max_value=15, error_messages={'invalid': 'startTimeZone は 4-15 の整数で指定してください。'})
+    # startTimeZone: 単一の整数またはカンマ区切りの複数値（例: "5,7,9"）を受け付ける
+    # フロントエンドは複数選択時に "5,7,9" のような文字列を送信します
+    startTimeZone = serializers.CharField(allow_blank=True, allow_null=True, required=False)
     originAddress = serializers.CharField(allow_blank=True, required=False)
     maxTravelTime = serializers.IntegerField(allow_null=True, required=False, min_value=0, error_messages={'invalid': 'maxTravelTime は正の整数（分）で指定してください。'})
 
@@ -34,5 +36,24 @@ class SearchRequestSerializer(serializers.Serializer):
         mtt = attrs.get('maxTravelTime')
         if mtt is not None and mtt < 0:
             raise serializers.ValidationError({'maxTravelTime': 'maxTravelTime は 0 以上の整数で指定してください。'})
+
+        # startTimeZone の追加検証: 空でなければ整数リストまたは単一整数として妥当性を確認
+        stz = attrs.get('startTimeZone')
+        if stz is not None and stz != '':
+            # 既に整数が来るケースにも対応するため、str にして処理
+            stz_str = str(stz)
+            parts = [p.strip() for p in stz_str.split(',') if p.strip() != '']
+            parsed = []
+            for p in parts:
+                try:
+                    v = int(p)
+                except Exception:
+                    raise serializers.ValidationError({'startTimeZone': 'startTimeZone は整数またはカンマ区切りの整数列表現で指定してください。'})
+                if v < 4 or v > 15:
+                    raise serializers.ValidationError({'startTimeZone': 'startTimeZone の各値は 4-15 の範囲で指定してください。'})
+                parsed.append(v)
+            # バリデータは値をそのまま文字列で保持しておき、ビュー/クライアントでそのまま外部APIに渡す
+            # ただし、内部で数値として参照したい場合は parsed を利用できるように補助キーを追加しておく
+            attrs['_startTimeZone_list'] = parsed
 
         return attrs
